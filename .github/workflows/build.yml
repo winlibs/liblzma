@@ -1,0 +1,21 @@
+name: Build liblzma
+on: [push, pull_request]
+jobs:
+  build:
+    strategy:
+      matrix:
+        vs: [vs16]
+        arch: [x64, x86]
+    runs-on: windows-2019
+    steps:
+      - name: Checkout liblzma
+        uses: actions/checkout@v2
+      - name: Setup MSBuild environment
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Build liblzma
+        run: ./.github/workflows/build.ps1 -vs ${{matrix.vs}} -arch ${{matrix.arch}}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: liblzma-5.2.5-${{matrix.vs}}-${{matrix.arch}}
+          path: ${{github.workspace}}\winlibs_out
