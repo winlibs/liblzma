@@ -1,0 +1,19 @@
+ CMakeLists.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 34c6aca..298bd12 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -431,6 +431,11 @@ set_target_properties(liblzma PROPERTIES
+     PREFIX ""
+ )
+ 
++set_target_properties(liblzma PROPERTIES
++    RELEASE_POSTFIX _a
++    DEBUG_POSTFIX _a_debug
++)
++
+ # Create liblzmaConfigVersion.cmake.
+ #
+ # FIXME: SameMajorVersion is correct for stable releases but it is wrong

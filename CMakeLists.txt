@@ -431,6 +431,11 @@ set_target_properties(liblzma PROPERTIES
     PREFIX ""
 )
 
+set_target_properties(liblzma PROPERTIES
+    RELEASE_POSTFIX _a
+    DEBUG_POSTFIX _a_debug
+)
+
 # Create liblzmaConfigVersion.cmake.
 #
 # FIXME: SameMajorVersion is correct for stable releases but it is wrong
