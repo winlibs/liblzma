@@ -433,6 +433,7 @@ set_target_properties(liblzma PROPERTIES
 
 set_target_properties(liblzma PROPERTIES
     RELEASE_POSTFIX _a
+    RELWITHDEBINFO_POSTFIX _a
     DEBUG_POSTFIX _a_debug
 )
 
