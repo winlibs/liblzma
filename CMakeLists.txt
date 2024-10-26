@@ -1373,7 +1373,13 @@ set_target_properties(liblzma PROPERTIES
     # On Windows, CMake uses the "lib" prefix with MinGW-w64 but not with
     # other toolchains. Those those need to be handled specially to get
     # the DLL file named liblzma.dll instead of lzma.dll.
-    OUTPUT_NAME "lzma"
+    OUTPUT_NAME "liblzma"
+)
+
+set_target_properties(liblzma PROPERTIES
+    RELEASE_POSTFIX _a
+    RELWITHDEBINFO_POSTFIX _a
+    DEBUG_POSTFIX _a_debug
 )
 
 if(WIN32 AND NOT MINGW)
