@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: 0BSD
+
+#############################################################################
 #
 # tuklib_physmem.cmake - see tuklib_physmem.m4 for description and comments
 #
@@ -6,9 +9,7 @@
 #
 # Author: Lasse Collin
 #
-# This file has been put into the public domain.
-# You can do whatever you want with this file.
-#
+#############################################################################
 
 include("${CMAKE_CURRENT_LIST_DIR}/tuklib_common.cmake")
 include(CheckCSourceCompiles)
@@ -130,11 +131,11 @@ function(tuklib_physmem_internal_check)
 endfunction()
 
 function(tuklib_physmem TARGET_OR_ALL)
-    if(NOT DEFINED CACHE{TUKLIB_PHYSMEM_FOUND})
+    if(NOT DEFINED TUKLIB_PHYSMEM_FOUND)
         message(STATUS "Checking how to detect the amount of physical memory")
         tuklib_physmem_internal_check()
 
-        if(DEFINED CACHE{TUKLIB_PHYSMEM_DEFINITIONS})
+        if(DEFINED TUKLIB_PHYSMEM_DEFINITIONS)
             set(TUKLIB_PHYSMEM_FOUND 1 CACHE INTERNAL "")
         else()
             set(TUKLIB_PHYSMEM_FOUND 0 CACHE INTERNAL "")
