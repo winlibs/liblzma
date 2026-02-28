@@ -159,32 +159,37 @@ OPTIONS
               mode option is specified and no other operation mode is  implied
               from the command name (for example, unxz implies --decompress).
 
+              After  successful compression, the source file is removed unless
+              writing to standard output or --keep was specified.
+
        -d, --decompress, --uncompress
-              Decompress.
+              Decompress.  After successful decompression, the source file  is
+              removed  unless  writing to standard output or --keep was speci-
+              fied.
 
        -t, --test
-              Test  the integrity of compressed files.  This option is equiva-
-              lent to --decompress --stdout except that the decompressed  data
-              is  discarded  instead  of being written to standard output.  No
+              Test the integrity of compressed files.  This option is  equiva-
+              lent  to --decompress --stdout except that the decompressed data
+              is discarded instead of being written to  standard  output.   No
               files are created or removed.
 
        -l, --list
-              Print information about compressed files.  No uncompressed  out-
-              put  is  produced, and no files are created or removed.  In list
-              mode, the program cannot read the compressed data from  standard
+              Print  information about compressed files.  No uncompressed out-
+              put is produced, and no files are created or removed.   In  list
+              mode,  the program cannot read the compressed data from standard
               input or from other unseekable sources.
 
-              The  default  listing  shows  basic information about files, one
-              file per line.  To get more detailed information, use  also  the
-              --verbose  option.   For  even  more  information, use --verbose
-              twice, but note that this may be slow, because getting  all  the
-              extra  information  requires  many  seeks.  The width of verbose
+              The default listing shows basic  information  about  files,  one
+              file  per  line.  To get more detailed information, use also the
+              --verbose option.  For  even  more  information,  use  --verbose
+              twice,  but  note that this may be slow, because getting all the
+              extra information requires many seeks.   The  width  of  verbose
               output exceeds 80 characters, so piping the output to, for exam-
-              ple, less -S may  be  convenient  if  the  terminal  isn't  wide
+              ple,  less -S  may  be  convenient  if  the  terminal isn't wide
               enough.
 
-              The  exact output may vary between xz versions and different lo-
-              cales.  For machine-readable output, --robot  --list  should  be
+              The exact output may vary between xz versions and different  lo-
+              cales.   For  machine-readable  output, --robot --list should be
               used.
 
    Operation modifiers
@@ -193,9 +198,9 @@ OPTIONS
 
               Since xz 5.2.6, this option also makes xz compress or decompress
               even if the input is a symbolic link to a regular file, has more
-              than  one  hard  link,  or has the setuid, setgid, or sticky bit
-              set.  The setuid, setgid, and sticky bits are not copied to  the
-              target  file.   In  earlier  versions  this  was  only done with
+              than one hard link, or has the setuid,  setgid,  or  sticky  bit
+              set.   The setuid, setgid, and sticky bits are not copied to the
+              target file.  In  earlier  versions  this  was  only  done  with
               --force.
 
        -f, --force
@@ -204,19 +209,19 @@ OPTIONS
               o  If the target file already exists, delete it before compress-
                  ing or decompressing.
 
-              o  Compress or decompress even if the input is a  symbolic  link
-                 to  a  regular  file, has more than one hard link, or has the
-                 setuid, setgid, or sticky bit set.  The setuid,  setgid,  and
+              o  Compress  or  decompress even if the input is a symbolic link
+                 to a regular file, has more than one hard link,  or  has  the
+                 setuid,  setgid,  or sticky bit set.  The setuid, setgid, and
                  sticky bits are not copied to the target file.
 
-              o  When  used with --decompress --stdout and xz cannot recognize
-                 the type of the source file, copy the source file  as  is  to
-                 standard  output.   This allows xzcat --force to be used like
+              o  When used with --decompress --stdout and xz cannot  recognize
+                 the  type  of  the source file, copy the source file as is to
+                 standard output.  This allows xzcat --force to be  used  like
                  cat(1) for files that have not been compressed with xz.  Note
                  that in future, xz might support new compressed file formats,
-                 which may make xz decompress more types of files  instead  of
-                 copying  them  as is to standard output.  --format=format can
-                 be used to restrict xz to decompress only a single file  for-
+                 which  may  make xz decompress more types of files instead of
+                 copying them as is to standard output.   --format=format  can
+                 be  used to restrict xz to decompress only a single file for-
                  mat.
 
        -c, --stdout, --to-stdout
@@ -225,86 +230,84 @@ OPTIONS
 
        --single-stream
               Decompress only the first .xz stream, and silently ignore possi-
-              ble  remaining  input  data following the stream.  Normally such
+              ble remaining input data following the  stream.   Normally  such
               trailing garbage makes xz display an error.
 
-              xz never decompresses more than one stream from .lzma  files  or
-              raw  streams, but this option still makes xz ignore the possible
+              xz  never  decompresses more than one stream from .lzma files or
+              raw streams, but this option still makes xz ignore the  possible
               trailing data after the .lzma file or raw stream.
 
-              This option has no effect if the operation mode is not  --decom-
+              This  option has no effect if the operation mode is not --decom-
               press or --test.
 
+              Since xz 5.7.1alpha, --single-stream implies --keep.
+
        --no-sparse
-              Disable  creation of sparse files.  By default, if decompressing
+              Disable creation of sparse files.  By default, if  decompressing
               into a regular file, xz tries to make the file sparse if the de-
-              compressed data contains long sequences  of  binary  zeros.   It
-              also  works  when writing to standard output as long as standard
-              output is connected to a regular  file  and  certain  additional
-              conditions  are  met to make it safe.  Creating sparse files may
-              save disk space and speed up the decompression by  reducing  the
+              compressed  data  contains  long  sequences of binary zeros.  It
+              also works when writing to standard output as long  as  standard
+              output  is  connected  to  a regular file and certain additional
+              conditions are met to make it safe.  Creating sparse  files  may
+              save  disk  space and speed up the decompression by reducing the
               amount of disk I/O.
 
        -S .suf, --suffix=.suf
               When compressing, use .suf as the suffix for the target file in-
-              stead  of  .xz  or .lzma.  If not writing to standard output and
-              the source file already has the suffix .suf, a warning  is  dis-
+              stead of .xz or .lzma.  If not writing to  standard  output  and
+              the  source  file already has the suffix .suf, a warning is dis-
               played and the file is skipped.
 
-              When  decompressing, recognize files with the suffix .suf in ad-
-              dition to files with the .xz, .txz, .lzma, .tlz, or .lz  suffix.
+              When decompressing, recognize files with the suffix .suf in  ad-
+              dition  to files with the .xz, .txz, .lzma, .tlz, or .lz suffix.
               If the source file has the suffix .suf, the suffix is removed to
               get the target filename.
 
-              When  compressing  or  decompressing raw streams (--format=raw),
-              the suffix must always be specified unless writing  to  standard
+              When compressing or decompressing  raw  streams  (--format=raw),
+              the  suffix  must always be specified unless writing to standard
               output, because there is no default suffix for raw streams.
 
        --files[=file]
-              Read  the  filenames  to  process from file; if file is omitted,
-              filenames are read from standard input.  Filenames must be  ter-
-              minated  with  the  newline character.  A dash (-) is taken as a
-              regular filename; it doesn't mean standard input.  If  filenames
+              Read the filenames to process from file;  if  file  is  omitted,
+              filenames  are read from standard input.  Filenames must be ter-
+              minated with the newline character.  A dash (-) is  taken  as  a
+              regular  filename; it doesn't mean standard input.  If filenames
               are given also as command line arguments, they are processed be-
               fore the filenames read from file.
 
        --files0[=file]
-              This  is  identical  to --files[=file] except that each filename
+              This is identical to --files[=file] except  that  each  filename
               must be terminated with the null character.
 
    Basic file format and compression options
        -F format, --format=format
               Specify the file format to compress or decompress:
 
-              auto   This is the default.  When compressing, auto  is  equiva-
-                     lent  to xz.  When decompressing, the format of the input
-                     file is automatically detected.  Note  that  raw  streams
+              auto   This  is  the default.  When compressing, auto is equiva-
+                     lent to xz.  When decompressing, the format of the  input
+                     file  is  automatically  detected.  Note that raw streams
                      (created with --format=raw) cannot be auto-detected.
 
               xz     Compress to the .xz file format, or accept only .xz files
                      when decompressing.
 
               lzma, alone
-                     Compress  to the legacy .lzma file format, or accept only
-                     .lzma files when  decompressing.   The  alternative  name
-                     alone  is  provided for backwards compatibility with LZMA
+                     Compress to the legacy .lzma file format, or accept  only
+                     .lzma  files  when  decompressing.   The alternative name
+                     alone is provided for backwards compatibility  with  LZMA
                      Utils.
 
               lzip   Accept only .lz files when decompressing.  Compression is
                      not supported.
 
-                     The .lz format version 0 and the unextended version 1 are
-                     supported.  Version 0 files were produced by lzip 1.3 and
-                     older.  Such files aren't common but may  be  found  from
-                     file  archives  as a few source packages were released in
-                     this format.  People might have  old  personal  files  in
-                     this  format  too.   Decompression support for the format
-                     version 0 was removed in lzip 1.18.
-
-                     lzip 1.4 and later create files in the format version  1.
-                     The  sync  flush marker extension to the format version 1
-                     was added in lzip 1.6.  This extension is rarely used and
-                     isn't supported by xz (diagnosed as corrupt input).
+                     The .lz format versions 0 and 1 are supported.  Version 0
+                     files  were  produced  by lzip 1.3 and older.  Such files
+                     aren't common but may be found from file  archives  as  a
+                     few source packages were released in this format.  People
+                     might have old personal files in this format too.  Decom-
+                     pression  support for the format version 0 was removed in
+                     lzip 1.18.  lzip 1.4 and later create files in the format
+                     version 1.
 
               raw    Compress or uncompress a raw stream (no  headers).   This
                      is meant for advanced users only.  To decode raw streams,
@@ -574,6 +577,20 @@ OPTIONS
               This feature is still experimental.  Currently xz is  unsuitable
               for  decompressing  the  stream  in real time due to how xz does
               buffering.
+
+       --no-sync
+              Do not synchronize the target file  and  its  directory  to  the
+              storage  device  before  removing the source file.  This can im-
+              prove performance if compressing  or  decompressing  many  small
+              files.   However, if the system crashes soon after the deletion,
+              it is possible that the target file was not written to the stor-
+              age device but the delete operation was.  In that  case  neither
+              the original source file nor the target file is available.
+
+              This  option  has  an effect only when xz is going to remove the
+              source file.  In other cases synchronization is never done.
+
+              The synchronization and --no-sync were added in xz 5.7.1alpha.
 
        --memlimit-compress=limit
               Set a memory usage limit for compression.   If  this  option  is
@@ -1363,12 +1380,23 @@ ENVIRONMENT
        done  with getopt_long(3) which is used also for the command line argu-
        ments.
 
+       Warning: By setting these environment  variables,  one  is  effectively
+       modifying  programs  and  scripts  that run xz.  Most of the time it is
+       safe to set memory usage limits, number of threads, and compression op-
+       tions via the environment variables.  However, some options  can  break
+       scripts.   An  obvious  example  is --help which makes xz show the help
+       text instead of compressing or decompressing a file.  More subtle exam-
+       ples are --quiet and --verbose.  In many cases it works well to  enable
+       the  progress indicator using --verbose, but in some situations the ex-
+       tra messages create problems.  The verbosity level also affects the be-
+       havior of --list.
+
        XZ_DEFAULTS
               User-specific or system-wide default options.  Typically this is
               set in a shell initialization script to enable xz's memory usage
-              limiter by default.  Excluding shell initialization scripts  and
-              similar  special  cases,  scripts must never set or unset XZ_DE-
-              FAULTS.
+              limiter by default or set the default number  of  threads.   Ex-
+              cluding  shell initialization scripts and similar special cases,
+              scripts should never set or unset XZ_DEFAULTS.
 
        XZ_OPT This is for passing options to xz when it is not possible to set
               the options directly on the xz command line.  This is  the  case
@@ -1673,4 +1701,4 @@ SEE ALSO
        XZ Embedded: <https://tukaani.org/xz/embedded.html>
        LZMA SDK: <https://7-zip.org/sdk.html>
 
-Tukaani                           2024-04-08                             XZ(1)
+Tukaani                           2025-03-08                             XZ(1)
